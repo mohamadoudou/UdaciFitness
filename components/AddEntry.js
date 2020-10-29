@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 import { View, Text,Platform,StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { getDailyReminderValue, getMetricMetaInfo, timeToString } from '../utils/helpers'
+import { getDailyReminderValue,
+         getMetricMetaInfo,
+         timeToString,
+         clearLocalNotification,
+         setLocalNotification
+    } from '../utils/helpers'
 import {Ionicons} from '@expo/vector-icons'
 import DateHeader from './DateHeader'
 import TextButton from './TextButton'
@@ -11,6 +16,7 @@ import UdaciSteppers from './UdaciSteppers'
 import { removeEntry, submitEntry } from '../utils/api'
 import {addEntry} from '../actions'
 import { purple, white } from '../utils/colors'
+import { set } from 'react-native-reanimated'
 
 
 function SubmitBtn({onPress}){
@@ -77,6 +83,8 @@ class AddEntry extends Component {
         }))
         dispatch(addEntry({[key]:entry}))
         submitEntry({entry,key})
+        clearLocalNotification()
+        .then(setLocalNotification)
         this.toHome()
     }
 

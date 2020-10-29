@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import React, { useState } from 'react'
+import React, { useState,Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -18,11 +18,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons';
 import { gray, purple, white } from '../utils/colors'
+import { setLocalNotification} from '../utils/helpers'
 import entries from '../reducers'
 import AddEntry from './AddEntry'
 import History from './History'
 import EntryDetail from './EntryDetail'
 import Live from './Live'
+
 
 
 const Tab = createBottomTabNavigator()
@@ -74,8 +76,13 @@ function Stacks() {
 
 const store = createStore(entries)
 
-export default function App() {
+export default class App extends Component {
 
+  componentDidMount(){
+    setLocalNotification()
+  }
+
+  render(){
   return (
     <Provider store={store}>
       <View style={{ flex: 1 }}>
@@ -83,7 +90,9 @@ export default function App() {
         <Stacks />
       </View>
     </Provider>
-  );
+   )
+  }
+
 }
 
 
